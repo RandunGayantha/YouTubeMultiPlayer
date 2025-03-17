@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Multi-Player</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            background-color: #121212;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        .top-section {
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #00adb5;
+        }
+        h1 {
+            font-size: 24px;
+            margin-top: 10px;
+        }
+        .input-container {
+            margin: 20px 0;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        input {
+            width: 250px;
+        }
+        button {
+            background-color: #00adb5;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #007f82;
+        }
+        .player-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        iframe {
+            width: 360px;
+            height: 200px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="top-section">Randun Labz</div>
+    <h1>YouTube Multi-Player</h1>
+    <div class="input-container">
+        <label for="videoUrl">YouTube Video URL:</label>
+        <input type="text" id="videoUrl" placeholder="Enter YouTube URL">
+        <br>
+        <label for="playerCount">Number of Players:</label>
+        <input type="number" id="playerCount" min="1" max="10" value="3">
+        <br><br>
+        <button onclick="loadPlayers()">Load Players</button>
+    </div>
+    <div class="player-container" id="players"></div>
+
+    <script>
+        function getYouTubeEmbedUrl(url) {
+            const urlParams = new URL(url).searchParams;
+            const videoId = urlParams.get("v");
+            return videoId ? `https://www.youtube.com/embed/${videoId}` : "";
+        }
+
+        function loadPlayers() {
+            const videoUrl = document.getElementById("videoUrl").value;
+            const playerCount = parseInt(document.getElementById("playerCount").value);
+            const embedUrl = getYouTubeEmbedUrl(videoUrl);
+            const playerContainer = document.getElementById("players");
+            playerContainer.innerHTML = "";
+
+            if (!embedUrl) {
+                alert("Invalid YouTube URL");
+                return;
+            }
+
+            for (let i = 0; i < playerCount; i++) {
+                const iframe = document.createElement("iframe");
+                iframe.src = embedUrl;
+                iframe.allow = "autoplay; encrypted-media";
+                playerContainer.appendChild(iframe);
+            }
+        }
+    </script>
+</body>
+</html>
